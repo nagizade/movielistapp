@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.13055555555555556" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_top_rated.xml" value="0.21851851851851853" />
         <entry key="app/src/main/res/layout/fragment_upcoming.xml" value="0.21851851851851853" />
         <entry key="app/src/main/res/layout/fragment_watchlist.xml" value="0.21851851851851853" />
+        <entry key="app/src/main/res/layout/layout_toolbar.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/list_item_movie.xml" value="0.21851851851851853" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.21851851851851853" />
       </map>
     </option>
@@ -16,5 +18,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="MovieListApp.app" />
+      </set>
+    </option>
   </component>
 </project>
