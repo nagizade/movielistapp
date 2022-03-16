@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MovieListApp</string>
+    <string name="message_error_happened">Error happened</string>
+    <string name="menu_top_rated">Top Rated</string>
+    <string name="menu_upcoming">Upcoming</string>
+    <string name="menu_watchlist">Watchlist</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
