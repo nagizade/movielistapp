@@ -1,7 +1,8 @@
-package com.hasannagizade.movielistapp
+package com.hasannagizade.movielistapp.presentation.tabs.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.hasannagizade.movielistapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
