@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hasannagizade.movielistapp.R
 import com.hasannagizade.movielistapp.data.model.MovieItem
 import com.hasannagizade.movielistapp.databinding.FragmentUpcomingBinding
+import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedFragmentDirections
 import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedState
 import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedViewModel
 import com.hasannagizade.movielistapp.tools.BaseFragment
@@ -63,6 +65,7 @@ class UpcomingFragment : BaseFragment<UpcomingViewModel>() {
 
         movieListAdapter.listener = object : MovieListAdapter.OnInteractionListener {
             override fun onClick(item: MovieItem) {
+                findNavController().navigate(UpcomingFragmentDirections.toMovieDetails(item))
             }
 
         }

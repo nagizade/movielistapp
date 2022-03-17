@@ -9,15 +9,36 @@
         android:id="@+id/topRated"
         android:name="com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedFragment"
         android:label="fragment_top_rated"
-        tools:layout="@layout/fragment_top_rated" />
+        tools:layout="@layout/fragment_top_rated" >
+        <action
+            android:id="@+id/toMovieDetails"
+            app:destination="@id/movieDetails" />
+    </fragment>
     <fragment
         android:id="@+id/upcoming"
         android:name="com.hasannagizade.movielistapp.presentation.tabs.upcoming.UpcomingFragment"
         android:label="fragment_upcoming"
-        tools:layout="@layout/fragment_upcoming" />
+        tools:layout="@layout/fragment_upcoming" >
+        <action
+            android:id="@+id/toMovieDetails"
+            app:destination="@id/movieDetails" />
+    </fragment>
     <fragment
         android:id="@+id/watchlist"
         android:name="com.hasannagizade.movielistapp.presentation.tabs.watchlist.WatchlistFragment"
         android:label="fragment_watchlist"
-        tools:layout="@layout/fragment_watchlist" />
+        tools:layout="@layout/fragment_watchlist" >
+        <action
+            android:id="@+id/toMovieDetails"
+            app:destination="@id/movieDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetails"
+        android:name="com.hasannagizade.movielistapp.presentation.tabs.details.MovieDetails"
+        android:label="fragment_movie_details"
+        tools:layout="@layout/fragment_movie_details" >
+        <argument
+            android:name="movie"
+            app:argType="com.hasannagizade.movielistapp.data.model.MovieItem" />
+    </fragment>
 </navigation>

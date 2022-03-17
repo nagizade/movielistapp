@@ -1,9 +1,12 @@
 package com.hasannagizade.movielistapp.data.model
 
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Parcelize
 data class MovieItem(
     val adult: Boolean? = null,
     val backdrop_path: String? = null,
@@ -19,4 +22,4 @@ data class MovieItem(
     val video: Boolean? = null,
     val vote_average: Double? = null,
     val vote_count: Int? = null
-)
+) : Parcelable
