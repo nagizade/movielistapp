@@ -6,10 +6,12 @@ import retrofit2.http.*
 
 interface MovieAPI {
 
-    @GET("/trending/movie/week")
-    suspend fun getTrendingMovies(): PaginationData<MovieItem>
+    @GET("trending/movie/week")
+    suspend fun getTrendingMovies(
+        @Query("page") page: Int
+    ): PaginationData<MovieItem>
 
-    @GET("/movie/upcoming")
+    @GET("movie/upcoming")
     suspend fun getUpcomingMovies(): PaginationData<MovieItem>
 
 }

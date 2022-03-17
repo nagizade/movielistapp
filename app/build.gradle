@@ -24,11 +24,7 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix '-debug'
-            debuggable true
             minifyEnabled false
-
             buildConfigField 'String', 'API_URL', '"https://api.themoviedb.org/3/"'
 
         }
@@ -86,6 +82,10 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    // RxJava 3
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.9'
+
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
 
@@ -98,4 +98,8 @@ dependencies {
 
     // serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 }

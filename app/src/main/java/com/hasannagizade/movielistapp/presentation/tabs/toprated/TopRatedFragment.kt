@@ -1,24 +1,94 @@
 package com.hasannagizade.movielistapp.presentation.tabs.toprated
 
+import android.R.attr
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hasannagizade.movielistapp.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.hasannagizade.movielistapp.data.model.MovieItem
+import com.hasannagizade.movielistapp.databinding.FragmentTopRatedBinding
+import com.hasannagizade.movielistapp.tools.BaseFragment
+import com.hasannagizade.movielistapp.tools.MovieListAdapter
+import com.hasannagizade.movielistapp.tools.PaginationListener
+import kotlin.reflect.KClass
+import android.R.attr.spacing
+
+import com.hasannagizade.movielistapp.tools.GridSpacingItemDecoration
 
 
-class TopRatedFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
+
+class TopRatedFragment : BaseFragment<TopRatedViewModel>() {
+
+    override val vmClazz: KClass<TopRatedViewModel>
+        get() = TopRatedViewModel::class
+    override val screenName: String
+        get() = "top_rated"
+
+    private lateinit var binding : FragmentTopRatedBinding
+
+    private val movieListAdapter: MovieListAdapter by lazy { MovieListAdapter() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentTopRatedBinding.inflate(inflater)
 
-        return inflater.inflate(R.layout.fragment_top_rated, container, false)
+        binding.topRatedRecycler.layoutManager = GridLayoutManager(binding.root.context,3)
+
+        binding.topRatedRecycler.addItemDecoration(GridSpacingItemDecoration(
+            3,
+            50,
+            true))
+
+        binding.topRatedRecycler.addOnScrollListener(object :
+            PaginationListener(binding.topRatedRecycler.layoutManager as GridLayoutManager) {
+            override fun loadMoreItems() {
+                viewModel.loadData()
+            }
+
+            override fun isLastPage(): Boolean {
+                return !viewModel.pagination.hasNext
+            }
+
+            override fun isLoading(): Boolean {
+                return viewModel.pagination.isLoading
+            }
+        })
+
+        movieListAdapter.listener = object : MovieListAdapter.OnInteractionListener {
+            override fun onClick(item: MovieItem) {
+            }
+
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is TopRatedState.Show -> {
+                    movieListAdapter.setData(state.data)
+                }
+            }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.topRatedSwipeRefresh.isRefreshing = it
+        }
+
+        binding.topRatedSwipeRefresh.setOnRefreshListener {
+            viewModel.reloadData()
+        }
+
+        if (viewModel.state.value == null) {
+            viewModel.reloadData()
+        }
+
+        binding.topRatedRecycler.adapter = movieListAdapter
+
+        return binding.root
     }
 }

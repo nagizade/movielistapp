@@ -3,26 +3,27 @@ package com.hasannagizade.movielistapp.tools
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hasannagizade.movielistapp.data.model.MovieItem
 import com.hasannagizade.movielistapp.databinding.ListItemMovieBinding
 
-class AddressesAdapter : RecyclerView.Adapter<AddressesAdapter.MovieVH>() {
+class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieVH>() {
 
     private val items = arrayListOf<MovieItem>()
     var listener: OnInteractionListener? = null
 
     fun setData(list: List<MovieItem>) {
+
         items.clear()
         items.addAll(list)
         notifyDataSetChanged()
     }
 
     class MovieVH(val binding: ListItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(
-            item: MovieItem,
-            pos: Int
-        ) = with(binding) {
-
+        fun bind(item: MovieItem) {
+            Glide.with(binding.root.context)
+                .load("http://image.tmdb.org/t/p/w154/${item.poster_path}")
+                .into(binding.imageView)
         }
     }
 
@@ -33,7 +34,7 @@ class AddressesAdapter : RecyclerView.Adapter<AddressesAdapter.MovieVH>() {
     }
 
     override fun onBindViewHolder(holder: MovieVH, position: Int) {
-        holder.bind(items[position], position)
+        holder.bind(items[position])
 
         holder.binding.root.setOnClickListener {
             listener?.onClick(items[position])

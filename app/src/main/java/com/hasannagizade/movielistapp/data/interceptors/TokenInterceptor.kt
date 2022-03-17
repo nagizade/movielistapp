@@ -2,6 +2,9 @@ package com.hasannagizade.movielistapp.data.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Response
+import okhttp3.HttpUrl
+import okhttp3.Request
+
 
 interface TokenInterceptor : Interceptor {
     fun getToken(): String?
@@ -14,19 +17,16 @@ class TokenInterceptorImpl : TokenInterceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        val mRequest = chain.request()
-        val originalHttpUrl = mRequest.url
-
-        // TODO: Put your api key in here
-        val httpUrl = originalHttpUrl.newBuilder()
-            .addQueryParameter("api_key","YOUR API KEY HERE")
+        val url = chain.request()
+            .url
+            .newBuilder()
+            .addQueryParameter("api_key", "")
             .build()
 
-        val reqBuilder = mRequest.newBuilder()
-            .url(httpUrl)
-
-        val request = reqBuilder.build()
-
+        val request: Request = chain.request()
+            .newBuilder()
+            .url(url)
+            .build()
         return chain.proceed(request)
     }
 }

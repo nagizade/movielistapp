@@ -2,6 +2,7 @@ package com.hasannagizade.movielistapp.data.di
 
 import com.hasannagizade.movielistapp.data.api.MovieRepository
 import com.hasannagizade.movielistapp.data.api.MovieRepositoryImpl
+import com.hasannagizade.movielistapp.data.api.remote.MovieAPI
 import com.hasannagizade.movielistapp.data.api.remote.MovieRemoteDataSource
 import com.hasannagizade.movielistapp.data.api.remote.MovieRemoteDataSourceImpl
 import com.hasannagizade.movielistapp.data.error.ErrorConverter
@@ -11,6 +12,7 @@ import com.hasannagizade.movielistapp.data.error.RemoteErrorMapper
 import com.hasannagizade.movielistapp.data.interceptors.TokenInterceptor
 import com.hasannagizade.movielistapp.data.interceptors.TokenInterceptorImpl
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -22,6 +24,7 @@ import retrofit2.Retrofit
 const val ERROR_MAPPER_NETWORK = "ERROR_MAPPER_NETWORK"
 
 
+@ExperimentalSerializationApi
 val dataModule = module {
     single<ErrorConverter> {
         ErrorConverterImpl(
@@ -57,8 +60,7 @@ val dataModule = module {
     single {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(
-            if (getProperty("isDebug") == true.toString()) HttpLoggingInterceptor.Level.BODY
-            else HttpLoggingInterceptor.Level.NONE
+            HttpLoggingInterceptor.Level.BODY
         )
     }
 
@@ -84,5 +86,9 @@ val dataModule = module {
             remoteDataSource = get()
         )
     }
+
+    /////////////////////// API ////////////////////////
+    factory<MovieAPI> { get<Retrofit>().create(MovieAPI::class.java) }
+
 
 }

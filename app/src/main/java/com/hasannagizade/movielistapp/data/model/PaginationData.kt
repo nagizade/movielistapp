@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PaginationData<T>(
     val results: List<T>,
-    val index: Int,
+    val page: Int,
     val total_pages: Int
 )
