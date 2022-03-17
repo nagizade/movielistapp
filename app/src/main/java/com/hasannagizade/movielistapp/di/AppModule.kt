@@ -1,8 +1,8 @@
 package com.hasannagizade.movielistapp.di
 
 import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedViewModel
+import com.hasannagizade.movielistapp.presentation.tabs.upcoming.UpcomingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.context.KoinContextHandler.get
 import org.koin.dsl.module
 
 val appModule = module {
@@ -12,6 +12,12 @@ val appModule = module {
         TopRatedViewModel(
             getTopRatedUseCase = get(),
             movieRepository = get()
+        )
+    }
+
+    viewModel {
+        UpcomingViewModel(
+            getUpcoming = get()
         )
     }
 

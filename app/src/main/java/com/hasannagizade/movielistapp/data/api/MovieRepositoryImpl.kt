@@ -12,7 +12,7 @@ class MovieRepositoryImpl(
         return remoteDataSource.getTrending(page)
     }
 
-    override suspend fun getUpcoming(): PaginationData<MovieItem> {
-        return remoteDataSource.getUpcoming()
+    override suspend fun getUpcoming(page: Int): PaginationData<MovieItem> {
+        return remoteDataSource.getUpcoming(page)
     }
 }

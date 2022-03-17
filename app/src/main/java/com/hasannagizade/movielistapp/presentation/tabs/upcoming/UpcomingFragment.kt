@@ -5,19 +5,87 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hasannagizade.movielistapp.R
+import com.hasannagizade.movielistapp.data.model.MovieItem
+import com.hasannagizade.movielistapp.databinding.FragmentUpcomingBinding
+import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedState
+import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedViewModel
+import com.hasannagizade.movielistapp.tools.BaseFragment
+import com.hasannagizade.movielistapp.tools.GridSpacingItemDecoration
+import com.hasannagizade.movielistapp.tools.MovieListAdapter
+import com.hasannagizade.movielistapp.tools.PaginationListener
+import kotlin.reflect.KClass
 
-class UpcomingFragment : Fragment() {
+class UpcomingFragment : BaseFragment<UpcomingViewModel>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    override val vmClazz: KClass<UpcomingViewModel>
+        get() = UpcomingViewModel::class
+    override val screenName: String
+        get() = "upcoming"
+
+    lateinit var binding: FragmentUpcomingBinding
+
+    private val movieListAdapter: MovieListAdapter by lazy { MovieListAdapter() }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upcoming, container, false)
+        binding = FragmentUpcomingBinding.inflate(inflater)
+
+        binding.upcomingrecycler.addItemDecoration(
+            GridSpacingItemDecoration(
+            3,
+            50,
+            true)
+        )
+
+        binding.upcomingrecycler.adapter = movieListAdapter
+
+
+        binding.upcomingrecycler.addOnScrollListener(object :
+            PaginationListener(binding.upcomingrecycler.layoutManager as GridLayoutManager) {
+            override fun loadMoreItems() {
+                viewModel.loadData()
+            }
+
+            override fun isLastPage(): Boolean {
+                return !viewModel.pagination.hasNext
+            }
+
+            override fun isLoading(): Boolean {
+                return viewModel.pagination.isLoading
+            }
+        })
+
+        movieListAdapter.listener = object : MovieListAdapter.OnInteractionListener {
+            override fun onClick(item: MovieItem) {
+            }
+
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UpcomingState.Show -> {
+                    movieListAdapter.setData(state.data)
+                }
+            }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.upcomingSwipeRefresh.isRefreshing = it
+        }
+
+        binding.upcomingSwipeRefresh.setOnRefreshListener {
+            viewModel.reloadData()
+        }
+
+        if (viewModel.state.value == null) {
+            viewModel.reloadData()
+        }
+
+        return binding.root
     }
 }

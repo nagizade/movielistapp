@@ -17,7 +17,12 @@ class MovieRemoteDataSourceImpl(
         )
     }
 
-    override suspend fun getUpcoming(): PaginationData<MovieItem> {
-        return api.getUpcomingMovies()
+    override suspend fun getUpcoming(page: Int): PaginationData<MovieItem> {
+        val result = api.getUpcomingMovies(page)
+        return PaginationData(
+            result.results,
+            result.page,
+            result.total_pages
+        )
     }
 }

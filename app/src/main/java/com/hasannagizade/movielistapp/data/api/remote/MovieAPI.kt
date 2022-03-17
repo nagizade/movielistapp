@@ -12,6 +12,8 @@ interface MovieAPI {
     ): PaginationData<MovieItem>
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(): PaginationData<MovieItem>
+    suspend fun getUpcomingMovies(
+        @Query("page") page: Int
+    ): PaginationData<MovieItem>
 
 }
