@@ -19,21 +19,6 @@ abstract class BaseFragment<ViewModel : BaseViewModel> : Fragment() {
 
     protected val viewModel: ViewModel by lazy { getViewModel(vmClazz) { parametersOf(arguments) } }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    protected open fun minutePassed() {}
-
     fun showToast(message: String?) {
         val finalMessage = if (message.isNullOrEmpty()) {
             getString(R.string.message_error_happened)

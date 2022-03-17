@@ -1,8 +1,6 @@
 package com.hasannagizade.movielistapp.presentation.tabs.toprated
 
-import android.R.attr
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +8,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.hasannagizade.movielistapp.data.model.MovieItem
 import com.hasannagizade.movielistapp.databinding.FragmentTopRatedBinding
 import com.hasannagizade.movielistapp.tools.BaseFragment
+import com.hasannagizade.movielistapp.tools.GridSpacingItemDecoration
 import com.hasannagizade.movielistapp.tools.MovieListAdapter
 import com.hasannagizade.movielistapp.tools.PaginationListener
 import kotlin.reflect.KClass
-import android.R.attr.spacing
-
-import com.hasannagizade.movielistapp.tools.GridSpacingItemDecoration
-
-
-
-
 
 class TopRatedFragment : BaseFragment<TopRatedViewModel>() {
 
