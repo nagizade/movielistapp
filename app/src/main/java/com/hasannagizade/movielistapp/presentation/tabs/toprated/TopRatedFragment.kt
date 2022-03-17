@@ -35,7 +35,7 @@ class TopRatedFragment : BaseFragment<TopRatedViewModel>() {
 
         binding.topRatedRecycler.addItemDecoration(GridSpacingItemDecoration(
             3,
-            50,
+            10,
             true))
 
         binding.topRatedRecycler.addOnScrollListener(object :

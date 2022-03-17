@@ -35,10 +35,11 @@ class UpcomingFragment : BaseFragment<UpcomingViewModel>() {
     ): View? {
         binding = FragmentUpcomingBinding.inflate(inflater)
 
+        binding.upcomingrecycler.layoutManager = GridLayoutManager(binding.root.context,3)
         binding.upcomingrecycler.addItemDecoration(
             GridSpacingItemDecoration(
             3,
-            50,
+            10,
             true)
         )
 
