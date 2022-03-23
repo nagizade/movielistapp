@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hasannagizade.movielistapp.usecases.BaseUseCase
 import com.hasannagizade.movielistapp.usecases.CompletionBlock
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
@@ -57,75 +55,7 @@ open class BaseViewModel() :
 
     private fun <T> Flow<T>.handleError(): Flow<T> = catch {  }
 
-    protected fun <T> Flow<T>.launch(
-        scope: CoroutineScope = viewModelScope,
-        loadingHandle: (Boolean) -> Unit = ::handleLoading
-    ): Job =
-        this.handleError()
-            .handleLoading(loadingHandle)
-            .launchIn(scope)
-
-    protected fun <T> Flow<T>.launchNoLoading(scope: CoroutineScope = viewModelScope): Job =
-        this.handleError()
-            .launchIn(scope)
-
-    protected fun <P, R, U : BaseUseCase<P, R>> U.launch(
-        param: P,
-        loadingHandle: (Boolean) -> Unit = ::handleLoading,
-        block: CompletionBlock<R> = {}
-    ) {
-        viewModelScope.launch {
-            val actualRequest = BaseUseCase.Request<R>().apply(block)
-
-            val proxy: CompletionBlock<R> = {
-                onStart = {
-                    loadingHandle(true)
-                    actualRequest.onStart?.invoke()
-                }
-                onSuccess = {
-                    actualRequest.onSuccess(it)
-                }
-                onCancel = {
-                    actualRequest.onCancel?.invoke(it)
-                }
-                onTerminate = {
-                    loadingHandle(false)
-                    actualRequest.onTerminate
-                }
-                onError = {
-                }
-            }
-            execute(param, proxy)
-        }
-    }
-
-    protected fun <P, R, U : BaseUseCase<P, R>> U.launchNoLoading(
-        param: P,
-        block: CompletionBlock<R> = {}
-    ) {
-        viewModelScope.launch {
-            val actualRequest = BaseUseCase.Request<R>().apply(block)
-
-            val proxy: CompletionBlock<R> = {
-                onStart = actualRequest.onStart
-                onSuccess = actualRequest.onSuccess
-                onCancel = actualRequest.onCancel
-                onTerminate = actualRequest.onTerminate
-                onError = {
-                }
-            }
-            execute(param, proxy)
-        }
-    }
-
     protected fun handleLoading(state: Boolean) {
         _isLoading.postValue(state)
-    }
-
-    protected fun <P, R, U : BaseUseCase<P, R>> U.launchUnsafe(
-        param: P,
-        block: CompletionBlock<R> = {}
-    ) {
-        viewModelScope.launch { execute(param, block) }
     }
 }
