@@ -18,31 +18,28 @@ class UpcomingViewModel(
     var pagination = Pagination()
 
     fun loadData() {
-        getUpcoming.launch(
-            MoviesUseCase.GetUpcoming.Params(pagination.nextPage),
-            loadingHandle = {
-                pagination.isLoading = it
-            }
-        ) {
+        launchAll {
+            pagination.isLoading = true
 
-            onSuccess = {
+            val movies = getUpcoming.getWith(
+                MoviesUseCase.GetUpcoming.Params(pagination.nextPage)
+            )
 
-                val result = arrayListOf<MovieItem>()
-                if (pagination.nextPage > 1) {
+            val result = arrayListOf<MovieItem>()
+            if (pagination.nextPage > 1) {
 
-                    (_state.value as? UpcomingState.Show)?.data?.let { cachedList ->
-                        result.addAll(cachedList)
-                    }
+                (state.value as? UpcomingState.Show)?.data?.let { cachedList ->
+                    result.addAll(cachedList)
                 }
-
-                result.addAll(it.results)
-                _state.postValue(UpcomingState.Show(result))
-
-                pagination.hasNext = it.page < it.total_pages
-                pagination.incrementOrSkip()
             }
-            onError = {
-            }
+
+            result.addAll(movies.results)
+
+            pagination.hasNext = movies.page < movies.total_pages
+            pagination.incrementOrSkip(pagination.hasNext)
+
+            _state.postValue(UpcomingState.Show(result))
+            pagination.isLoading = false
         }
     }
 

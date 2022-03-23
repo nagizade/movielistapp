@@ -11,8 +11,7 @@ val appModule = module {
 
     viewModel {
         TopRatedViewModel(
-            getTopRatedUseCase = get(),
-            movieRepository = get()
+            getTopRatedUseCase = get()
         )
     }
 

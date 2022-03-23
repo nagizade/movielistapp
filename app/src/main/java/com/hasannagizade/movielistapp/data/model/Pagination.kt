@@ -5,7 +5,7 @@ class Pagination {
     var hasNext = false
     var isLoading = false
 
-    fun incrementOrSkip() {
+    fun incrementOrSkip(hasNext: Boolean) {
         if (hasNext)
             nextPage += 1
     }

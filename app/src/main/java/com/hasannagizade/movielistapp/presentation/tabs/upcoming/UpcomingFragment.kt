@@ -1,18 +1,13 @@
 package com.hasannagizade.movielistapp.presentation.tabs.upcoming
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.hasannagizade.movielistapp.R
 import com.hasannagizade.movielistapp.data.model.MovieItem
 import com.hasannagizade.movielistapp.databinding.FragmentUpcomingBinding
-import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedFragmentDirections
-import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedState
-import com.hasannagizade.movielistapp.presentation.tabs.toprated.TopRatedViewModel
 import com.hasannagizade.movielistapp.tools.BaseFragment
 import com.hasannagizade.movielistapp.tools.GridSpacingItemDecoration
 import com.hasannagizade.movielistapp.tools.MovieListAdapter
@@ -45,9 +40,6 @@ class UpcomingFragment : BaseFragment<UpcomingViewModel>() {
             true)
         )
 
-        binding.upcomingrecycler.adapter = movieListAdapter
-
-
         binding.upcomingrecycler.addOnScrollListener(object :
             PaginationListener(binding.upcomingrecycler.layoutManager as GridLayoutManager) {
             override fun loadMoreItems() {
@@ -69,6 +61,9 @@ class UpcomingFragment : BaseFragment<UpcomingViewModel>() {
             }
 
         }
+
+        binding.upcomingrecycler.adapter = movieListAdapter
+
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
