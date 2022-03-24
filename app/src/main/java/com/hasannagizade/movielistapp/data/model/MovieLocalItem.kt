@@ -1,17 +1,19 @@
 package com.hasannagizade.movielistapp.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.hasannagizade.movielistapp.data.local.GenreConverters
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
-
-@Serializable
-@Parcelize
-data class MovieItem(
+@Entity(
+    tableName = "watchlist_table"
+)
+data class MovieLocalItem(
+    @PrimaryKey
+    val id: Int,
     val adult: Boolean? = null,
     val backdrop_path: String? = null,
     val genre_ids: List<Int>? = null,
-    val id: Int,
     val original_language: String? = null,
     val original_title: String? = null,
     val overview: String? = null,
@@ -22,13 +24,13 @@ data class MovieItem(
     val video: Boolean? = null,
     val vote_average: Double? = null,
     val vote_count: Int? = null
-) : Parcelable {
-    fun toMovieLocalItem() : MovieLocalItem {
-        return MovieLocalItem(
-            id,
+) {
+    fun toModel(): MovieItem {
+        return MovieItem(
             adult,
             backdrop_path,
             genre_ids,
+            id,
             original_language,
             original_title,
             overview,

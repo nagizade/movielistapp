@@ -25,4 +25,32 @@ val useCasesModule = module {
             movieRepository = get()
         )
     }
+
+    factory {
+        MoviesUseCase.GetWatchlist(
+            context = get(named(IO_CONTEXT)), errorMapper = get(),
+            movieRepository = get()
+        )
+    }
+
+    factory {
+        MoviesUseCase.AddToWatchlist(
+            context = get(named(IO_CONTEXT)), errorMapper = get(),
+            movieRepository = get()
+        )
+    }
+
+    factory {
+        MoviesUseCase.RemoveFromWatchlist(
+            context = get(named(IO_CONTEXT)), errorMapper = get(),
+            movieRepository = get()
+        )
+    }
+
+    factory {
+        MoviesUseCase.GetMovie(
+            context = get(named(IO_CONTEXT)), errorMapper = get(),
+            movieRepository = get()
+        )
+    }
 }

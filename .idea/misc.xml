@@ -5,7 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.27291666666666664" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_movie_details.xml" value="0.4759259259259259" />
+        <entry key="app/src/main/res/layout/fragment_movie_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_top_rated.xml" value="0.21851851851851853" />
         <entry key="app/src/main/res/layout/fragment_upcoming.xml" value="0.21851851851851853" />
         <entry key="app/src/main/res/layout/fragment_watchlist.xml" value="0.21851851851851853" />

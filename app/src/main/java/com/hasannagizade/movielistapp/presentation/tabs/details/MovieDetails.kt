@@ -1,7 +1,6 @@
 package com.hasannagizade.movielistapp.presentation.tabs.details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +19,11 @@ class MovieDetails : BaseFragment<MovieDetailsViewModel>() {
     override val screenName: String
         get() = "movie_details"
 
-    lateinit var binding: FragmentMovieDetailsBinding
+    private lateinit var binding: FragmentMovieDetailsBinding
 
-    val args: MovieDetailsArgs by navArgs()
+    private val args: MovieDetailsArgs by navArgs()
+
+    private var isMovieLocal = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +32,7 @@ class MovieDetails : BaseFragment<MovieDetailsViewModel>() {
         binding = FragmentMovieDetailsBinding.inflate(inflater)
 
         val movie = args.movie
+        viewModel.getMovieFromWatchlist(movie.id)
 
         Glide.with(binding.root.context)
             .load("http://image.tmdb.org/t/p/w500/${movie.poster_path}")
@@ -39,6 +41,34 @@ class MovieDetails : BaseFragment<MovieDetailsViewModel>() {
         binding.description.text = movie.overview
 
         binding.back.setOnClickListener { findNavController().popBackStack() }
+
+        binding.watchlistAction.setOnClickListener {
+            if (isMovieLocal) {
+                viewModel.removeFromWatchlist(movie.id)
+            } else viewModel.addToWatchlist(movie)
+        }
+
+        viewModel.state.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                MovieDetailsState.SuccessAddWatchlist -> {
+                    showToast(getString(R.string.added_to_watchlist))
+                    findNavController().popBackStack()
+                }
+                MovieDetailsState.SuccessRemoveWatchlist -> {
+                    showToast(getString(R.string.removed_from_watchlist))
+                    findNavController().popBackStack()
+                }
+                is MovieDetailsState.LocalMovie -> {
+                    state.movieItem?.let {
+                        isMovieLocal = true
+                        binding.watchlistAction.text = getString(R.string.remove_from_watchlist)
+                    } ?: run {
+                        binding.watchlistAction.text = getString(R.string.add_to_watchlist)
+                        isMovieLocal = false
+                    }
+                }
+            }
+        })
 
         return binding.root
     }
